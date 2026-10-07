@@ -492,7 +492,7 @@ function renderLab(){
 }
 
 function renderToolkit(){
-  return '<div style="max-width:850px;margin:auto"><span class="eyebrow">Toolkit</span><h1 class="screen-title">What you've experienced</h1><p class="subcopy">No universal score. Concepts unlock because you encountered them in context.</p><div class="choice-grid">'+TOOLKIT.map(function(t){const unlocked=state.completed.indexOf(t[1])>=0||currentMission()===t[1]||t[1]==="wallet"&&state.profile.hasCard;return '<div class="choice" style="opacity:'+(unlocked?1:.38)+'"><h4>'+t[0]+'</h4><p>'+(unlocked?"Experienced in your year":"Not encountered yet")+'</p></div>';}).join("")+'</div></div>';
+  return '<div style="max-width:850px;margin:auto"><span class="eyebrow">Toolkit</span><h1 class="screen-title">What you have experienced</h1><p class="subcopy">No universal score. Concepts unlock because you encountered them in context.</p><div class="choice-grid">'+TOOLKIT.map(function(t){const unlocked=state.completed.indexOf(t[1])>=0||currentMission()===t[1]||t[1]==="wallet"&&state.profile.hasCard;return '<div class="choice" style="opacity:'+(unlocked?1:.38)+'"><h4>'+t[0]+'</h4><p>'+(unlocked?"Experienced in your year":"Not encountered yet")+'</p></div>';}).join("")+'</div></div>';
 }
 
 function renderWrap(){
