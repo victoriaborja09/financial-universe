@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Financial Universe is an interactive personal-finance simulation for practicing real financial decisions without risking real money." />
+  <meta property="og:title" content="Financial Universe" />
+  <meta property="og:description" content="Practice financial decisions before they cost you real money." />
+  <title>Financial Universe</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <button class="brand ghost" data-action="landing">◉ Financial Universe</button>
+    <div class="nav-actions">
+      <a href="#how" class="text-link">How it works</a>
+      <button class="btn btn-outline" data-action="demo">Try the Demo</button>
+    </div>
+  </header>
+
+  <main id="landing">
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="eyebrow">Interactive financial simulation</span>
+        <h1>Practice financial decisions <em>before</em> they cost you real money.</h1>
+        <p>Build a simulated version of your finances, experiment with saving, investing, credit and debt, and experience the consequences of the choices you make.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" data-action="demo">Try the Demo →</button>
+          <button class="btn btn-light btn-lg" data-action="onboarding">Build My Universe</button>
+        </div>
+        <p class="demo-note">Demo: Victoria, 22 · New York City · $110k salary · $15k student debt</p>
+      </div>
+
+      <div class="hero-product" aria-hidden="true">
+        <div class="mini-monitor">
+          <div class="mini-screen">
+            <div class="mini-top"><span>Victoria's Universe</span><span>$7,500 cash</span></div>
+            <div class="mini-grid">
+              <div class="mini-card"><small>Emergency savings</small><b>$4,000</b></div>
+              <div class="mini-card"><small>Roth IRA</small><b>Not opened</b></div>
+              <div class="mini-card"><small>Brokerage</small><b>Not opened</b></div>
+              <div class="mini-card"><small>Student debt</small><b>$15,000</b></div>
+            </div>
+            <div class="mini-mission"><small>MISSION 1</small><strong>Build your wallet</strong><span>Explore the tradeoffs →</span></div>
+          </div>
+        </div>
+        <div class="monitor-neck"></div><div class="monitor-foot"></div>
+      </div>
+    </section>
+
+    <section class="split-section">
+      <article>
+        <span class="eyebrow">The problem</span>
+        <h2>Your first paycheck is also your first real test.</h2>
+        <p>Young adults make consequential choices about credit, retirement, investing and debt with almost no opportunity to practice. Financial education explains concepts. It rarely lets you feel the tradeoff before the decision is real.</p>
+      </article>
+      <article>
+        <span class="eyebrow">The thesis</span>
+        <h2>Don't gamify finance. Make it playable.</h2>
+        <p>No coins, avatars or arbitrary scores. Engagement comes from experimentation, consequence and replay. The simulation never tells you there is one correct financial life. It shows what changed, and lets you try another path.</p>
+      </article>
+    </section>
+
+    <section class="loop-section" id="how">
+      <span class="eyebrow eyebrow-light">How the simulation works</span>
+      <h2>One financial year. Decisions that compound.</h2>
+      <div class="loop-grid">
+        <div><small>01</small><b>Earn</b><p>See what reaches you after payroll, taxes and baseline costs.</p></div>
+        <div><small>02</small><b>Allocate</b><p>Choose which financial containers hold the money you can decide on.</p></div>
+        <div><small>03</small><b>Experience</b><p>Life happens: an emergency, a trip, a market drop.</p></div>
+        <div><small>04</small><b>Learn</b><p>See the consequence in context, not in a textbook.</p></div>
+        <div><small>05</small><b>Experiment</b><p>Clone decisions in the Lab without changing your Universe.</p></div>
+        <div><small>06</small><b>Adjust</b><p>Replay the same year with the same circumstances and new choices.</p></div>
+      </div>
+    </section>
+
+    <section class="core-section">
+      <div>
+        <span class="eyebrow">The core mechanic</span>
+        <h2>Your Universe is what you did. The Lab is what you could have done.</h2>
+        <p>Orders, balances and consequences live in your Universe. Lab experiments are alternate realities that never overwrite your actual year.</p>
+      </div>
+      <div class="compare-preview">
+        <div class="compare-card"><small>UNIVERSE</small><b>$500 → NVIDIA</b><span>$468 after the move</span></div>
+        <div class="compare-card alt"><small>LAB</small><b>What if → VTI?</b><span>$509 after the same period</span></div>
+        <p>No verdict. Just a different exposure and a different outcome.</p>
+      </div>
+    </section>
+
+    <section class="portfolio-section">
+      <span class="eyebrow">Portfolio project</span>
+      <h2>Built around product judgment, not coding theater.</h2>
+      <p>Product concept, research, UX and prototype by Victoria Borja. Implementation uses AI-assisted development to turn the product specification into a working interactive experience.</p>
+    </section>
+  </main>
+
+  <main id="onboarding" class="hidden"></main>
+  <main id="desk" class="hidden"></main>
+  <div id="modal" class="modal hidden"></div>
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>
