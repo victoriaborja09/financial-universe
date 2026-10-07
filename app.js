@@ -386,11 +386,11 @@ function missionInvest(){
   const cash=state.accounts.rothCash+state.accounts.brokerageCash;
   return '<div style="max-width:980px;margin:auto">'+missionHeader("invest")+
     '<div class="inline-note"><b>Account = container. Investment = what sits inside.</b> You moved '+money(cash)+' into investment accounts. That cash is still not invested until you place an order.</div>'+
-    '<div style="margin-top:16px">'+renderMarket(true)+'</div>'+
+    '<div style="margin-top:16px">'+renderMarketPanel(true)+'</div>'+
     '<div style="display:flex;justify-content:flex-end;margin-top:16px"><button class="btn btn-primary" data-action="finish-invest" '+(state.positions.length===0?"disabled":"")+'>Continue with these positions →</button></div></div>';
 }
 
-function renderMarket(inMission){
+function renderMarketPanel(inMission){
   const results=SECURITIES.filter(function(s){const q=marketQuery.toLowerCase().trim();return !q||s.ticker.toLowerCase().includes(q)||s.name.toLowerCase().includes(q);});
   const sel=security(selectedTicker)||SECURITIES[0];
   const cash=marketAccount==="roth"?state.accounts.rothCash:state.accounts.brokerageCash;
