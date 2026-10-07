@@ -398,7 +398,7 @@ function renderMarketPanel(inMission){
   return '<div class="market-layout"><div><div class="account-tabs"><button class="btn '+(marketAccount==="roth"?"btn-primary":"btn-outline")+'" data-market-account="roth">Roth IRA · '+money(state.accounts.rothCash)+' cash</button><button class="btn '+(marketAccount==="brokerage"?"btn-primary":"btn-outline")+'" data-market-account="brokerage">Brokerage · '+money(state.accounts.brokerageCash)+' cash</button></div>'+
     '<input class="searchbar" id="marketSearch" placeholder="Search ticker, company or fund" value="'+esc(marketQuery)+'">'+
     '<div class="search-results">'+results.map(function(s){return '<div class="security-row '+(s.ticker===selectedTicker?"selected":"")+'" data-security="'+s.ticker+'"><b>'+s.ticker+'</b><div>'+s.name+'<br><small>'+s.type+'</small></div><span>'+((s.move>=0?"+":"")+(s.move*100).toFixed(1))+'%*</span></div>';}).join("")+'</div><p class="subcopy" style="font-size:11px">*Prototype move used later in the year. Not live market data.</p></div>'+
-    '<div class="security-detail"><span class="eyebrow">'+sel.type+'</span><h2 style="margin:5px 0">'+sel.ticker+'</h2><p class="subcopy">'+sel.blurb+'</p><div class="inline-note"><b>Why might someone choose this?</b> '+(sel.type==="Stock"?"They may have a specific view on this company and accept that one company drives the entire position.":"They may want exposure to a basket of securities rather than relying on one company.")+'</div><div class="field-group" style="margin-top:16px"><label>Amount to invest from '+(marketAccount==="roth"?"Roth IRA":"Brokerage")+' cash</label><input id="orderAmount" class="field" type="number" min="0" max="'+cash+'" step="25" value="'+orderAmount+'"></div><button class="btn btn-primary" style="width:100%;margin-top:12px" data-action="review-order" '+(orderAmount<=0||cash<=0?"disabled":"")+'>Review Order</button></div></div>';
+    '<div class="security-detail"><span class="eyebrow">'+sel.type+'</span><h2 style="margin:5px 0">'+sel.ticker+'</h2><p class="subcopy">'+sel.blurb+'</p><div class="inline-note"><b>Why might someone choose this?</b> '+(sel.type==="Stock"?"They may have a specific view on this company and accept that one company drives the entire position.":"They may want exposure to a basket of securities rather than relying on one company.")+'</div><div class="field-group" style="margin-top:16px"><label>Amount to invest from '+(marketAccount==="roth"?"Roth IRA":"Brokerage")+' cash</label><input id="orderAmount" class="field" type="number" min="0" max="'+cash+'" step="25" value="'+orderAmount+'"></div><button class="btn btn-primary" style="width:100%;margin-top:12px" data-action="review-order">Review Order</button></div></div>';
 }
 
 function renderMarketApp(){
@@ -602,7 +602,7 @@ document.addEventListener("click", function(e){
   }
   if(a==="finish-invest"){ advance(); return; }
   if(a==="finish-expense"){
-    const x=state.expense; if(!x) return;
+    const x=state.expense || {savings:1800,card:0,sell:0}; state.expense=x;
     state.accounts.savings=Math.max(0,state.accounts.savings-x.savings);
     if(x.card>0) state.accounts.card+=x.card;
     if(x.sell>0) sellBrokerage(x.sell);
@@ -627,7 +627,7 @@ document.addEventListener("click", function(e){
     advance(); return;
   }
   if(a==="finish-bonus"){
-    const b=state.bonus; if(!b) return;
+    const b=state.bonus || {emergency:1000,extraDebt:1000,roth:1000,brokerage:1000,checking:1000,card:0}; state.bonus=b;
     state.accounts.savings+=b.emergency; state.accounts.debt=Math.max(0,state.accounts.debt-b.extraDebt);
     state.accounts.rothCash+=b.roth; state.accounts.brokerageCash+=b.brokerage; state.accounts.checking+=b.checking;
     state.accounts.card=Math.max(0,state.accounts.card-b.card);
