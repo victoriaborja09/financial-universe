@@ -137,6 +137,13 @@ function netWorth(){
   return state.accounts.checking + state.accounts.savings + state.accounts.k401 + accountValue("roth") + accountValue("brokerage") - state.accounts.debt - state.accounts.card;
 }
 function totalCash(){ return state.accounts.checking + state.accounts.savings + state.accounts.rothCash + state.accounts.brokerageCash; }
+function appUnlocked(app){
+  if(app==="market") return state.completed.indexOf("allocate")>=0 && (state.accounts.rothCash+state.accounts.brokerageCash>0.5 || state.positions.length>0);
+  if(app==="lab") return state.completed.indexOf("allocate")>=0;
+  if(app==="wallet") return !!state.cardId || !!state.profile.hasCard;
+  if(app==="wrap") return currentMission()==="wrap";
+  return true;
+}
 
 function advance(){
   const cur = currentMission();
@@ -248,7 +255,7 @@ function renderDesk(){
     '<div class="desk-scene"><div class="monitor"><div class="screen">'+
       '<div class="screen-menubar"><div class="screen-brand"><span>◉</span><span>Financial Universe</span><span class="pill">Year 1 · Mission '+(state.missionIdx+1)+'</span>'+(state.isDemo?'<span class="pill">Demo</span>':'')+'</div><div class="screen-stats"><span class="pill">Net worth '+money(netWorth())+'</span><button class="btn btn-outline" data-action="landing">Leave</button></div></div>'+
       '<div class="screen-content">'+renderApp(state.app)+'</div>'+
-      '<div class="dock">'+apps.map(function(a){return '<button data-app="'+a[0]+'" class="'+(state.app===a[0]?"active":"")+'"><span style="font-size:18px">'+a[1]+'</span><br>'+a[2]+'</button>';}).join("")+'</div>'+
+      '<div class="dock">'+apps.map(function(a){var unlocked=appUnlocked(a[0]);return '<button '+(unlocked?'data-app="'+a[0]+'"':'disabled')+' class="'+(state.app===a[0]?"active ":"")+(unlocked?"":"locked")+'"><span style="font-size:18px">'+a[1]+'</span><br>'+a[2]+'</button>';}).join("")+'</div>'+
     '</div></div><div class="desk-neck"></div><div class="desk-foot"></div></div>';
 }
 
@@ -375,7 +382,7 @@ function missionAllocate(){
       allocCard("Brokerage","brokerage",a.brokerage,"Flexible taxable investing account.","Access before retirement","Different tax treatment than a Roth")+
       allocCard("Leave in checking","checking",a.checking,"Keep it immediately spendable.","Maximum flexibility","Usually little growth")+
     '</div>'+
-    '<div class="summary-bar"><div><small>Still unallocated</small><br><b>'+money(remaining)+'</b> of '+money(total)+'</div><button class="btn btn-primary" data-action="finish-allocation" '+(remaining>0.5?"disabled":"")+'>Lock allocation →</button></div></div>';
+    '<div class="summary-bar"><div><small>Still unallocated · anything left stays in checking</small><br><b>'+money(remaining)+'</b> of '+money(total)+'</div><button class="btn btn-primary" data-action="finish-allocation">Lock allocation →</button></div></div>';
 }
 
 function allocCard(title,key,value,desc,why,trade){
@@ -575,7 +582,10 @@ document.addEventListener("click", function(e){
     advance(); return;
   }
   if(a==="finish-allocation"){
-    const al=state.allocation; if(!al) return;
+    const al=state.allocation || {emergency:0,extraDebt:0,roth:0,brokerage:0,checking:0};
+    const used=al.emergency+al.extraDebt+al.roth+al.brokerage+al.checking;
+    al.checking += Math.max(0,state.decisionMoney-used);
+    state.allocation=al;
     state.goal=allocationGoal;
     state.accounts.savings+=al.emergency;
     state.accounts.debt=Math.max(0,state.accounts.debt-al.extraDebt);
